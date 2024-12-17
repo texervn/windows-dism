@@ -61,8 +61,33 @@ dism /apply-image /imagefile:E:\sources\install.wim /index:2 /applydir:C:\
 5. Activate your UEFI boot
 
 ```sh
+bcdboot c:\Windows /s W:
+```
+
+For MBR boot, we can use the old method:
+
+```sh
 bootsect C:\Windows /s W:
 ```
 
-6. Reboot to enjoy your new system.
+6. Register the location of the recovery tools
+
+```sh
+Reagentc /Setreimage /Path C:\Windows\System32\Recovery /Target C:\Windows
+```
+
+7. Verify the configuration status of the images
+
+```sh
+Reagentc /Info /Target C:\Windows
+```
+
+8. Reboot to enjoy your new system.
+
+9. Bonus steps: Capture a WIM file and apply it to another disk
+
+```sh
+dism /image:C:\ /optimize-image /boot
+dism /Capture-Image /ImageFile:"D:\source.wim" /CaptureDir:C:\
+```
 
